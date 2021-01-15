@@ -2,7 +2,7 @@
 #include "gd32e23x_gpio.h"
 #include "gd32e23x_usart.h"
 
-#define UART_CH	1	/* UART channel to use = 0: USART0, 1: USART1 */
+#define UART_CH	0	/* UART channel to use = 0: USART0, 1: USART1 */
 
 #if UART_CH == 0		/* PA9:USART0_TX, PA10:USART0_RX */
 #define USART_PIN_TX	GPIO_PIN_9

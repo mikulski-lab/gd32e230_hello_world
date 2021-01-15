@@ -12,10 +12,9 @@
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
 
-uint32_t usart = USART0;
+static const uint32_t USART = USART0;
 
-void retarget_init(uint32_t usart_periph) {
-  usart = usart_periph;
+void retarget_init() {
   uart_setup();
   /* Disable I/O buffering for STDOUT stream, so that
    * chars are sent out as soon as they are printed. */
@@ -33,8 +32,8 @@ int _isatty(int fd) {
 int _write(int fd, char* ptr, int len) {
   if (fd == STDOUT_FILENO || fd == STDERR_FILENO) {
     for (int ii=0; ii<len; ii++) {
-      usart_data_transmit(usart, ptr[ii]);
-      while(RESET == usart_flag_get(usart, USART_FLAG_TBE));
+      usart_data_transmit(USART, ptr[ii]);
+      while(RESET == usart_flag_get(USART, USART_FLAG_TBE));
     }
     return len;
   }
@@ -62,7 +61,7 @@ int _lseek(int fd, int ptr, int dir) {
 int _read(int fd, char* ptr, int len) {
   if (fd == STDIN_FILENO) {
     for(int ii=0; ii<len; ii++) {
-      ptr[ii] = usart_data_receive(usart);
+      ptr[ii] = usart_data_receive(USART);
     }
     return 0;
   }

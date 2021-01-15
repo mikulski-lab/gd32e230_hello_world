@@ -3,7 +3,7 @@
 
 #include <sys/stat.h>
 
-void retarget_init(uint32_t usart_periph);
+void retarget_init();
 int _isatty(int fd);
 int _write(int fd, char* ptr, int len);
 int _close(int fd);
